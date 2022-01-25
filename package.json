@@ -1,0 +1,11 @@
+{
+  "name": "solo-project",
+  "version": "2.0.0",
+  "description": "packages required for solo project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Young Min Lee",
+  "license": "ISC"
+}
