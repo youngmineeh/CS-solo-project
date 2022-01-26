@@ -7,7 +7,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'bundle.js'
   },
-  mode: 'production',
+  mode: process.env.NODE_ENV,
   module: {
     rules: [
       {
@@ -33,12 +33,6 @@ module.exports = {
       // },
     ]
   },
-  // devServer: {
-  //   static: {
-  //     publicPath: '/dist',
-  //     directory: path.resolve(__dirname, 'dist')
-  //   }
-  // },
   plugins: [
     new HtmlWebpackPlugin({
       title: 'Development',
@@ -46,4 +40,10 @@ module.exports = {
       // template: 'index.html'
     }),
   ],
+  devServer: {
+    static: {
+      publicPath: '/dist',
+      directory: path.resolve(__dirname, 'dist')
+    }
+  },
 };
