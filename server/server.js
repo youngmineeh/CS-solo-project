@@ -1,10 +1,12 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const cors = require('cors');
 const PORT = 3000;
 const spotifyRouter = require('./router/spotify')
 
 app.use(express.json());
+app.use(cors())
 
 if (process.env.NODE_ENV === 'production'){
   app.use('/dist', express.static(path.join(__dirname, '../dist')));
@@ -14,7 +16,7 @@ if (process.env.NODE_ENV === 'production'){
 };
 
 // define routes
-// app.use('/spotify', spotifyRouter);
+app.use('/api/spotify', spotifyRouter);
 
 // local error handler
 app.use((req, res) => {

@@ -44,6 +44,9 @@ module.exports = {
     static: {
       publicPath: '/dist',
       directory: path.resolve(__dirname, 'dist')
+    },
+    proxy: {
+      '/api': 'http://localhost:3000'
     }
   },
 };
