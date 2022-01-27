@@ -17,7 +17,7 @@ router.get('/',
   }
 );
 
-router.get('/login',
+router.post('/login',
   spotifyController.login,
   (req, res) => {
     return res.status(200).json(res.locals)
