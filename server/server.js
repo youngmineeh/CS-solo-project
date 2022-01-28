@@ -3,10 +3,12 @@ const app = express();
 const path = require('path');
 const cors = require('cors');
 const PORT = 3000;
-const spotifyRouter = require('./router/spotify')
+const spotifyRouter = require('./router/spotify');
+const { urlencoded } = require('express');
 
 app.use(express.json());
 app.use(cors())
+app.use(urlencoded());
 
 if (process.env.NODE_ENV === 'production'){
   app.use('/dist', express.static(path.join(__dirname, '../dist')));

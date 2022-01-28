@@ -24,4 +24,19 @@ router.post('/login',
   }
   )
 
+router.get('/user',
+spotifyController.getUser,
+spotifyController.getUserPlaylists,
+(req, res) => {
+  return res.status(200).json(res.locals)
+}
+)
+
+router.post('/search',
+spotifyController.searchTracks,
+(req, res) => {
+  return res.status(200).json(res.locals)
+}
+)
+
 module.exports = router;

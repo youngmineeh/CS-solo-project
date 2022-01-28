@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import Container from './components/Container.jsx'
+import './stylesheets/styles.scss';
 
 class App extends Component {
   constructor(){
@@ -8,7 +9,7 @@ class App extends Component {
 
   render() {
     return(
-      <div>
+      <div className="app">
         <Container />
       </div>
     )

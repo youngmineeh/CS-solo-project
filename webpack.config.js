@@ -20,17 +20,29 @@ module.exports = {
           },
         },
       },
-      // {
-      //   test: /\.s[ac]ss$/i,
-      //   use: [
-      //     // Creates `style` nodes from JS strings
-      //     "style-loader",
-      //     // Translates CSS into CommonJS
-      //     "css-loader",
-      //     // Compiles Sass to CSS
-      //     "sass-loader",
-      //   ],
-      // },
+      {
+        test: /\.s[ac]ss$/i,
+        exclude: /node_modules/,
+        use: [
+          // Creates `style` nodes from JS strings
+          "style-loader",
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          "sass-loader",
+        ],
+      },
+      {
+        test: /\.(png|jp(e*)g|svg|gif)$/,
+          use: [
+            {
+              loader: 'file-loader',
+              options: {
+                name: 'images/[hash]-[name].[ext]',
+              },
+            },
+          ],
+      },
     ]
   },
   plugins: [
@@ -43,10 +55,12 @@ module.exports = {
   devServer: {
     static: {
       publicPath: '/dist',
-      directory: path.resolve(__dirname, 'dist')
+      directory: path.resolve(__dirname, 'dist'),
     },
     proxy: {
       '/api': 'http://localhost:3000'
-    }
+    },
+    historyApiFallback: true,
+    hot: true,
   },
 };

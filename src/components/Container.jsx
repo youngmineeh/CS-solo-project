@@ -1,25 +1,30 @@
 import React, { Component } from 'react';
+import { Switch, Route, Link } from 'react-router-dom'
 import Search from './Search.jsx';
 import Login from './Login.jsx';
+import User from './User.jsx';
 
 
 class Container extends Component {
   constructor(){
     super();
     this.state = {
-      songTitle: '',
+      search: '',
       authURL: '',
+      userInfo: {},
+      userPlaylists: {},
     };
     this.handleSearchClick = this.handleSearchClick.bind(this);
     this.recordSearch = this.recordSearch.bind(this);
     this.handleLoginClick = this.handleLoginClick.bind(this);
+    this.handleUserClick = this.handleUserClick.bind(this);
   }
 
   handleSearchClick() {
-    console.log(this.state.songTitle)
+    console.log(this.state.search)
     fetch('/api/spotify', {
       method: 'POST',
-      body: JSON.stringify({ songTitle: this.state.songTitle }),
+      body: JSON.stringify({ search: this.state.search }),
       headers: { 'Content-Type': 'application/json' },
     })
       .then(res => res.json())
@@ -29,8 +34,8 @@ class Container extends Component {
   }
 
   recordSearch(e) {
-    console.log(this.state.authURL);
-    this.setState({songTitle: e});
+    console.log(e)
+    this.setState({search: e});
   }
 
   handleLoginClick() {
@@ -54,6 +59,22 @@ class Container extends Component {
     })
   };
 
+  handleUserClick() {
+    console.log('getting user info')
+      fetch('/api/spotify/user', {
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' },
+      })
+        .then(res => res.json())
+        .then((data) => {
+          this.setState({ userInfo: data.user })
+          this.setState({ userPlaylists: data.userPlaylists})
+          console.log(this.state.userInfo)
+          console.log(this.state.userInfo.images[0].url)
+          console.log(this.state.userPlaylists)
+        })
+  };
+
   handleAuthClick() {
     const tempAuthURL = 'window.location.href'
     console.log(tempAuthURL)
@@ -62,16 +83,39 @@ class Container extends Component {
 
   render() {
     return(
-      <div>
+      <div className="container">
         <Login 
-          handleLoginClick = {this.handleLoginClick}
-          handleAuthClick = {this.handleAuthClick}
-        />
-        <Search 
-          songTitle = {this.state.songTitle}
-          handleSearchClick = {this.handleSearchClick}
-          recordSearch = {this.recordSearch}
-        />
+              handleLoginClick = {this.handleLoginClick}
+              handleAuthClick = {this.handleAuthClick}
+            />
+        <Link to="/user" >
+          <button>User Info </button> 
+        </Link>
+        <Link to="/search" >
+          <button>Search </button> 
+        </Link>
+        <Switch>
+          <Route 
+            path="/search"
+            component={
+              () => <Search 
+              songTitle = {this.state.songTitle}
+              handleSearchClick = {this.handleSearchClick}
+              recordSearch = {this.recordSearch}
+            />
+            }
+          />
+          <Route 
+            path="/user"
+            component={
+              () => <User 
+              handleUserClick = {this.handleUserClick}
+              userInfo = {this.state.userInfo}
+              userPlaylists = {this.state.userPlaylists}
+            />
+            }
+          />
+        </Switch>
       </div>
     )
   }
